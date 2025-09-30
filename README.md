@@ -1,0 +1,64 @@
+# **🛒 Apni Dukan - E-commerce Website**
+
+Welcome to **Apni Dukan**, a full-stack e-commerce website built to provide users with a seamless online shopping experience. This project integrates **frontend** and **backend** components to manage products, user authentication, and orders efficiently.
+
+---
+
+## **💻 Project Overview**
+
+**Apni Dukan** allows users to:
+
+- Browse and search for products.
+- Register and log in as a customer or retailer.
+- Add products to the cart and proceed with checkout.
+- Track orders and view order history (future feature expansion possible).
+- Manage product listings for retailers.
+
+This project demonstrates a modern e-commerce workflow using **JavaScript**, **React.js**, **Node.js**, and **Express.js**.
+
+---
+
+## **🛠️ Features**
+
+### **Frontend**
+
+- Built using **React.js** with modular components.
+- Responsive and user-friendly UI with **Tailwind CSS**.
+- Forms for user signup, login, and checkout.
+- Product catalog display with search and filter functionality.
+
+### **Backend**
+
+- Built with **Node.js** and **Express.js**.
+- **MongoDB** for database management using **Mongoose**.
+- Secure user authentication using **JWT** tokens and password hashing with **bcrypt**.
+- RESTful API endpoints for products, users, and orders.
+
+### **Security & Utilities**
+
+- Passwords are hashed using **bcrypt**.
+- Authentication handled via **JWT** for secure sessions.
+- Error handling with custom middleware for better debugging.
+- CORS enabled for seamless frontend-backend communication.
+
+---
+
+## **⚙️ Tech Stack**
+
+| Layer        | Technology |
+|--------------|------------|
+| Frontend     | React.js, Tailwind CSS, HTML, CSS, JavaScript |
+| Backend      | Node.js, Express.js |
+| Database     | MongoDB, Mongoose |
+| Authentication | JWT, bcrypt |
+| Tools        | VS Code, Postman, Git & GitHub |
+
+---
+
+## **🚀 Getting Started**
+
+### **1. Clone the repository**
+
+```bash
+git clone <your-repo-URL>
+cd Apni-Dukan
