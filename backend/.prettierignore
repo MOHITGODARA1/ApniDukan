@@ -1,0 +1,34 @@
+# Node modules
+node_modules
+
+# Build / output folders
+dist
+build
+out
+
+# Dependency directories
+bower_components
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git
+.git
+.gitignore
+
+# Misc
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Static assets (optional)
+public/**/*.svg
+public/**/*.png
+public/**/*.jpg
