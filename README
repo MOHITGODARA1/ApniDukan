@@ -1,10 +1,10 @@
-# Apni Dukan - E-commerce Website
+# **🛒 Apni Dukan - E-commerce Website**
 
 Welcome to **Apni Dukan**, a full-stack e-commerce website built to provide users with a seamless online shopping experience. This project integrates **frontend** and **backend** components to manage products, user authentication, and orders efficiently.
 
 ---
 
-## 🛒 Project Overview
+## **💻 Project Overview**
 
 **Apni Dukan** allows users to:
 
@@ -14,27 +14,27 @@ Welcome to **Apni Dukan**, a full-stack e-commerce website built to provide user
 - Track orders and view order history (future feature expansion possible).
 - Manage product listings for retailers.
 
-The project demonstrates a modern e-commerce workflow using **JavaScript**, **React.js**, **Node.js**, and **Express.js**.
+This project demonstrates a modern e-commerce workflow using **JavaScript**, **React.js**, **Node.js**, and **Express.js**.
 
 ---
 
-## 💻 Features
+## **🛠️ Features**
 
-### Frontend
+### **Frontend**
 
 - Built using **React.js** with modular components.
 - Responsive and user-friendly UI with **Tailwind CSS**.
 - Forms for user signup, login, and checkout.
 - Product catalog display with search and filter functionality.
 
-### Backend
+### **Backend**
 
 - Built with **Node.js** and **Express.js**.
 - **MongoDB** for database management using **Mongoose**.
 - Secure user authentication using **JWT** tokens and password hashing with **bcrypt**.
 - RESTful API endpoints for products, users, and orders.
 
-### Security & Utilities
+### **Security & Utilities**
 
 - Passwords are hashed using **bcrypt**.
 - Authentication handled via **JWT** for secure sessions.
@@ -43,7 +43,7 @@ The project demonstrates a modern e-commerce workflow using **JavaScript**, **Re
 
 ---
 
-## ⚙️ Tech Stack
+## **⚙️ Tech Stack**
 
 | Layer        | Technology |
 |--------------|------------|
@@ -55,10 +55,10 @@ The project demonstrates a modern e-commerce workflow using **JavaScript**, **Re
 
 ---
 
-## 🚀 Getting Started
+## **🚀 Getting Started**
 
-### 1. Clone the repository
+### **1. Clone the repository**
 
 ```bash
-git clone <https://github.com/MOHITGODARA1/ApniDukan.git>
+git clone <your-repo-URL>
 cd Apni-Dukan
