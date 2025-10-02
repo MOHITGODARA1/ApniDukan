@@ -29,6 +29,15 @@ const RegisterUser=new Schema({
   gstNumber:{
     type:String,
   },
+  otp:{
+    type:String,
+  },
+  otpExpire:{
+    type:Date
+  },
+  otpResendAt:{
+    type:Date
+  },
   creditLimit:{
     type:Boolean,
     required:true

@@ -9,10 +9,14 @@ router.route("/register").post(UserRegister)
 //User Login
 
 router.route("/login").post(UserLogin)
+// router.route("/auth/send-otp").post(SendOTP)
 
 //secured route
 
 router.route("/logout").post(verifyJWT,UserLogout)
 router.route("/refreshtoken").post(refreshacesstoken)
+
+//OTP rote
+
 
 export default router

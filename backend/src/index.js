@@ -3,8 +3,6 @@ dotenv.config()
 import { app } from "./app.js"
 import { ConnectDb } from "./db/DBconnect.js"
 
-
-
 ConnectDb().then(()=>{
   const PORT=process.env.PORT||3000
   app.listen(PORT,()=>{
