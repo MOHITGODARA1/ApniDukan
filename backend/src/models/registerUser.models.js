@@ -18,7 +18,7 @@ const RegisterUser=new Schema({
     unique:true
   },
   BuyerType:{
-    type:Boolean,
+    type:String,
     required:true
   },
   Address:{
@@ -37,6 +37,10 @@ const RegisterUser=new Schema({
   },
   otpResendAt:{
     type:Date
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   creditLimit:{
     type:Boolean,

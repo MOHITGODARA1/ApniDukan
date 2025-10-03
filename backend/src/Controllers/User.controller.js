@@ -41,7 +41,7 @@ const UserRegister = async (req, res) => {
       name: name.toLowerCase().trim(),
       email: email.toLowerCase().trim(),
       mobileNumber,
-      BuyerType,
+      BuyerType:BuyerType.toLowerCase().trim(),
       Address:Address.trim(),
       gstNumber:gstNumber?.trim(),
       creditLimit
@@ -125,7 +125,42 @@ const UserLogin=async(req,res)=>{
   }
 }
 
+const verifyUser=async(req,res)=>{
+  try {
+    //get OTP from User
+    const {otp}=req.body
+    if(!otp){
+      throw new Apierror(400,"OTP is required")
+    }
+    //find user and check otp
+    const hashotp=crypto.createHash("sha256").update(otp).digest("hex")
+    const user=await Register.findOne({otp:hashotp})
+    if(!user){
+      throw new Apierror(400,"OTP is not valid")
+    }
+    //check time 
+    if(Date.now()>user.otpExpire){
+      throw new Apierror(400,"OTP is expire")
+    }
+    //Send response
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpire = undefined;
+    user.otpResendAt = undefined;
+    await user.save();
 
+    res.status(200).json({
+      success: true,
+      message: "User verified successfully",
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      message:error.message|| "Internal server error"
+    });
+  }
+}
 const UserLogout=async(req,res)=>{
   await Register.findByIdAndUpdate(
     req.user._id,
@@ -187,4 +222,4 @@ const refreshacesstoken=async (req,res)=>{
   }
 }
 
-export { UserRegister,UserLogin,UserLogout,refreshacesstoken };
+export { UserRegister,UserLogin,UserLogout,refreshacesstoken,verifyUser };

@@ -1,4 +1,4 @@
-import {UserLogin, UserRegister,UserLogout,refreshacesstoken } from "../Controllers/User.controller.js";
+import {UserLogin, UserRegister,UserLogout,refreshacesstoken,verifyUser } from "../Controllers/User.controller.js";
 import { Router } from "express";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 const router=Router();
@@ -16,7 +16,7 @@ router.route("/login").post(UserLogin)
 router.route("/logout").post(verifyJWT,UserLogout)
 router.route("/refreshtoken").post(refreshacesstoken)
 
-//OTP rote
-
+//verify OTP rote
+router.route("/Verify-User").post(verifyUser)
 
 export default router
