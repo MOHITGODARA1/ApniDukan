@@ -3,12 +3,12 @@ import image from '../../assets/loginimage.png';
 import logo from "../../assets/logo.png";
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios"
 export function Loginpage() {
   const [number, setNumber] = useState("");
   const [error, setError] = useState("");
   const navigate=useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
 
 
@@ -16,11 +16,27 @@ export function Loginpage() {
       setError("Number is required");
       return;
     }
-    navigate("/verfy-OTP")
-
+    const payload={
+      mobileNumber:number
+    }
     setError("");
     console.log("Mobile Number:", number);
-    // here you can call API to generate OTP
+    try {
+      const response=await axios.post("http://localhost:4000/api/v1/user/login",payload,{
+        headers:{
+          "Content-Type":"application/json"
+        },
+      });
+      if(response.status===200 && response.data.success){
+        alert("✅ OTP sent successfully");
+        navigate("/verfy-OTP",{ state: { mobileNumber: number } })
+      }else{
+        setError("Number is not register")
+      }
+    } catch (error) {
+      console.error("Server side error:", error.response?.data || error.message);
+      alert("Server side error, please try again");
+    }
   };
 
   return (
@@ -52,10 +68,13 @@ export function Loginpage() {
                 <br />
                 <input
                   value={number}
-                  maxLength={10}
                   onChange={(e) =>{
-                    const val = e.target.value.replace(/\D/, "");
-                    setNumber(val);
+                    let value = e.target.value;
+                    // Automatically add +91 if not already present
+                    if (!value.startsWith("+91")) {
+                      value = "+91" + value.replace(/^\+91/, "").replace(/\s/g, "");
+                    }
+                    setNumber(value);
                   }}
                   className="px-2 border border-black md:w-[90%] w-full mt-1 h-10 md:h-8 rounded-lg outline-none"
                   id="number"

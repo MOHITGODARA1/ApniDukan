@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import image from "../../assets/loginimage.png";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 export function SingUP() {
@@ -16,10 +17,18 @@ export function SingUP() {
   const [errors, setErrors] = useState({});
   const [retailer, setretailer] = useState(false);
   const [shopkeeper, setshopkeeper] = useState(false);
+  const navigate=useNavigate();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    setFormData((prev) => ({
+    ...prev,
+    [id]: id === "number"
+      ? value.startsWith("+91") 
+        ? value // keep if already added
+        : "+91" + value.replace(/^\+91/, "").replace(/\s/g, "") // ensure no duplicate +91
+      : value,
+  }));
   };
 
   const validate = () => {
@@ -33,7 +42,7 @@ export function SingUP() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
@@ -54,19 +63,23 @@ export function SingUP() {
       creditLimit: formData.limit === "yes" ? 1 : 0,
     };
 
-    axios
-      .post("http://localhost:4000/api/v1/user/register", payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(() => {
-        alert("user register successfully");
-      })
-      .catch((err) => {
-        alert("server is not responding");
-        console.log(err);
-      });
+    try {
+      const response=await axios
+        .post("http://localhost:4000/api/v1/user/register", payload, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      if(response.data.success && response.status===201){
+        alert("Account is created sucessfully");
+        navigate("/")
+      }else{
+        alert("all field are required")
+      }
+    } catch (error) {
+      console.error("Server side error:", error.response?.data || error.message);
+      alert("Server side error, please try again");
+    }
   };
 
   return (

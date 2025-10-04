@@ -1,17 +1,46 @@
 import React, { useState } from 'react';
 import image from '../../assets/loginimage.png';
 import logo from "../../assets/logo.png";
-import { Link } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
+import axios from 'axios';
 function Verifyotp(){
   const [otp,setotp]=useState("");
   const [error,seterror]=useState("");
-  const handelVerify=(e)=>{
+  const native=useNavigate();
+  const location=useLocation();
+  const mobileNumber=location.state?.mobileNumber;
+
+
+  //snend data to backend 
+  const handelVerify=async(e)=>{
     e.preventDefault();
     if(!otp){
       seterror("OTP is Required");
       return;
     }
+    const payload={
+      otp:otp,
+      mobileNumber:mobileNumber
+    }
     seterror("");
+    try {
+      const response=await axios.post("http://localhost:4000/api/v1/user/Verify-User",payload,{
+        headers:{
+          "Content-Type":"application/json",
+        }
+      });
+  
+      if(response.data.user.isVerified && response.data.success){
+        localStorage.setItem("isVerified","true")
+        alert("Login sucessfull we will redirect you to main page")
+        native("/");
+      }else{
+        seterror("Invalid OTP")
+      }
+    } catch (error) {
+      console.error("Server side error:", error.response?.data || error.message);
+      seterror("Server side error, please try again");
+    }
 
   }
   return(

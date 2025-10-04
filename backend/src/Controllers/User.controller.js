@@ -55,8 +55,10 @@ const UserRegister = async (req, res) => {
     }
 
     // Send response
-    return res.status(201).json(
-      new Apiresponse(201, userCreated, "User created successfully")
+    return res.status(201).json({
+      success:true,
+      message:"USer created sucessfully"
+    }
     );
 
   } catch (err) {
@@ -112,7 +114,6 @@ const UserLogin=async(req,res)=>{
     .json({
       success: true,
       message: "OTP sent successfully",
-      sid: message.sid
     })
 
 
@@ -128,15 +129,15 @@ const UserLogin=async(req,res)=>{
 const verifyUser=async(req,res)=>{
   try {
     //get OTP from User
-    const {otp}=req.body
-    if(!otp){
-      throw new Apierror(400,"OTP is required")
+    const {otp,mobileNumber}=req.body
+    const user=await Register.findOne({mobileNumber})
+    if(!user){
+      return res.status(400).json({ success: false, message: "User not found" });
     }
     //find user and check otp
     const hashotp=crypto.createHash("sha256").update(otp).digest("hex")
-    const user=await Register.findOne({otp:hashotp})
-    if(!user){
-      throw new Apierror(400,"OTP is not valid")
+    if(hashotp!==user.otp){
+      return res.status(400).json({ success: false, message: "OTP is not valid" });
     }
     //check time 
     if(Date.now()>user.otpExpire){
@@ -150,6 +151,9 @@ const verifyUser=async(req,res)=>{
     await user.save();
 
     res.status(200).json({
+      user: {
+        isVerified: user.isVerified,
+      },
       success: true,
       message: "User verified successfully",
     });

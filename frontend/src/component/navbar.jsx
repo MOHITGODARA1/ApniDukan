@@ -1,14 +1,27 @@
 import logo from "../assets/logo.png"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { HiMenu, HiX, HiShoppingCart } from "react-icons/hi";
 import { useNavigate,Link } from 'react-router-dom';
 
 export function Navbar(){
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isVerified,setVerified]=useState(false)
   const nevigate=useNavigate()
+  useEffect(()=>{
+    const verified=localStorage.getItem("isVerified")==="true";
+    setVerified(verified);
+  },[])
   function handelLogin(){
     nevigate('/loginpage');
   }
+  function handelLogout() {
+    localStorage.removeItem("isVerified");
+    setVerified(false);
+    nevigate("/");
+  }
+
+
+  
   return(
     <>
       <div className="w-full h-16 flex items-center justify-between px-4">
@@ -34,7 +47,13 @@ export function Navbar(){
               <Link to="/Cartpage">
                 <HiShoppingCart className="h-6 w-6 cursor-pointer"/>
               </Link>
-              <button className="bg-[#489fb5] text-white p-2 rounded-md cursor-pointer hover:scale-110 transition-all duration-300" onClick={handelLogin}>login/signup</button>
+              {
+                !isVerified?(
+                  <button className="bg-[#489fb5] text-white p-2 rounded-md cursor-pointer hover:scale-110 transition-all duration-300" onClick={handelLogin}>login/signup</button>
+                ):(
+                  <button className="bg-[#489fb5] text-white p-2 rounded-md cursor-pointer hover:scale-110 transition-all duration-300" onClick={handelLogout}>Logout</button>
+                )
+              }
             </ul>
         </nav>
 
@@ -43,9 +62,17 @@ export function Navbar(){
           <Link to="/Cartpage">
             <HiShoppingCart className="h-6 w-6 cursor-pointer"/>
           </Link>
-          <button className="bg-[#489fb5] text-white p-2 rounded-md text-sm" onClick={handelLogin}>
-            login/signup
-          </button>
+          {
+            !isVerified?(
+              <button className="bg-[#489fb5] text-white p-2 rounded-md text-sm" onClick={handelLogin}>
+                login/signup
+              </button>
+            ):(
+              <button className="bg-[#489fb5] text-white p-2 rounded-md text-sm" onClick={handelLogout}>
+                Logout
+              </button>
+            )
+          }
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
               <HiX className="h-6 w-6" />
