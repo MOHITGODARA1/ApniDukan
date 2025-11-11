@@ -1,4 +1,4 @@
-import Verifyotp from "../component/loginpage/OTP"
+import Verifyotp from "../auth/OTP"
 function VerifyOtpPage(){
   return(
     <>

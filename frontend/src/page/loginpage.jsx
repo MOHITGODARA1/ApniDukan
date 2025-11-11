@@ -1,4 +1,4 @@
-import { Loginpage } from "../component/loginpage/loginpage"
+import { Loginpage } from "../auth/loginpage"
 export function LoginPage(){
   return(
     <>

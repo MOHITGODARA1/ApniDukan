@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import image from "../../assets/loginimage.png";
-import logo from "../../assets/logo.png";
+import image from "../assets/loginimage.png";
+import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function SingUP() {
@@ -17,18 +17,19 @@ export function SingUP() {
   const [errors, setErrors] = useState({});
   const [retailer, setretailer] = useState(false);
   const [shopkeeper, setshopkeeper] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
-    ...prev,
-    [id]: id === "number"
-      ? value.startsWith("+91") 
-        ? value // keep if already added
-        : "+91" + value.replace(/^\+91/, "").replace(/\s/g, "") // ensure no duplicate +91
-      : value,
-  }));
+      ...prev,
+      [id]:
+        id === "number"
+          ? value.startsWith("+91")
+            ? value
+            : "+91" + value.replace(/^\+91/, "").replace(/\s/g, "")
+          : value,
+    }));
   };
 
   const validate = () => {
@@ -42,7 +43,7 @@ export function SingUP() {
     return newErrors;
   };
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
@@ -64,150 +65,161 @@ export function SingUP() {
     };
 
     try {
-      const response=await axios
-        .post("http://localhost:4000/api/v1/user/register", payload, {
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/user/register",
+        payload,
+        {
           headers: {
             "Content-Type": "application/json",
           },
-        });
-      if(response.data.success && response.status===201){
-        alert("Account is created sucessfully");
-        navigate("/")
-      }else{
-        alert("all field are required")
+        }
+      );
+      if (response.data.success && response.status === 201) {
+        alert("🎉 Account created successfully! Redirecting to main page...");
+        navigate("/");
+      } else {
+        alert("⚠️ All fields are required");
       }
     } catch (error) {
       console.error("Server side error:", error.response?.data || error.message);
-      alert("Server side error, please try again");
+      alert("❌ Server error, please try again");
     }
   };
 
   return (
     <>
-      <div className="w-full flex justify-center items-center flex-col">
-        {/* logo section for small screens */}
-        <div className="h-20 w-full flex items-center justify-center md:hidden">
-          <img src={logo} alt="logo" className="h-full md:ml-6 ml-3" />
-        </div>
+      <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-br from-[#d9f3f8] via-[#b5e4ef] to-[#8fd3e9] font-[Poppins] px-2">
+        <div className="w-full max-w-6xl flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl overflow-hidden">
 
-        <div className="w-[90%] h-screen flex justify-center items-start md:items-center">
-          {/* left image section */}
-          <div className="h-[90%] w-1/2 md:flex hidden">
-            <div
-              className="h-full w-full bg-contain bg-no-repeat bg-center"
-              style={{ backgroundImage: `url(${image})` }}
-            ></div>
+          {/* Left image section */}
+          <div className="hidden md:flex w-1/2 bg-[#e3f6f8] justify-center items-center">
+            <img
+              src={image}
+              alt="signup visual"
+              className="w-[80%] h-auto drop-shadow-xl"
+            />
           </div>
 
-          {/* right form section */}
-          <div className="md:w-1/2 w-full flex justify-center items-start">
+          {/* Right form section */}
+          <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 md:p-12">
+            {/* Logo for mobile */}
+            <div className="h-20 w-full flex items-center justify-center md:hidden mb-4">
+              <img src={logo} alt="logo" className="h-16" />
+            </div>
+
+            <h2 className="text-3xl font-semibold text-[#489fb5] mb-2">
+              Create an Account
+            </h2>
+            <p className="text-gray-600 mb-6 text-center">
+              Join our community and start exploring today!
+            </p>
+
             <form
               onSubmit={handleSubmit}
-              className="w-full h-[90%] flex flex-col justify-center mb-4 md:mt-16 mt-6"
+              className="w-full max-w-md flex flex-col justify-center items-center"
             >
-              {/* name */}
-              <div>
-                <label htmlFor="name" className="font-semibold text-lg">
-                  Name
+              {/* Name */}
+              <div className="w-full mb-4">
+                <label htmlFor="name" className="font-semibold text-gray-700">
+                  Full Name
                 </label>
-                <br />
                 <input
                   id="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="px-2 border border-black w-full md:w-[90%] mt-1 h-10 md:h-8 rounded-lg outline-none"
-                  placeholder="Enter name"
+                  placeholder="Enter your name"
+                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#489fb5] outline-none"
                 />
                 {errors.name && (
-                  <p className="text-[15px] text-red-600">{errors.name}</p>
+                  <p className="text-sm text-red-600 mt-1">{errors.name}</p>
                 )}
               </div>
 
-              {/* number */}
-              <div className="mt-4">
-                <label htmlFor="number" className="font-semibold text-lg">
+              {/* Number */}
+              <div className="w-full mb-4">
+                <label htmlFor="number" className="font-semibold text-gray-700">
                   Mobile Number
                 </label>
-                <br />
                 <input
                   id="number"
                   value={formData.number}
                   onChange={handleChange}
-                  className="px-2 border border-black w-full md:w-[90%] mt-1 h-10 md:h-8 rounded-lg outline-none"
-                  placeholder="Enter Number"
+                  placeholder="Enter your mobile number"
+                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#489fb5] outline-none"
                 />
                 {errors.number && (
-                  <p className="text-[15px] text-red-600">{errors.number}</p>
+                  <p className="text-sm text-red-600 mt-1">{errors.number}</p>
                 )}
               </div>
 
-              {/* email */}
-              <div className="mt-4">
-                <label htmlFor="email" className="font-semibold text-lg">
+              {/* Email */}
+              <div className="w-full mb-4">
+                <label htmlFor="email" className="font-semibold text-gray-700">
                   Email (Optional)
                 </label>
-                <br />
                 <input
                   id="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="px-2 border border-black w-full md:w-[90%] mt-1 h-10 md:h-8 rounded-lg outline-none"
-                  placeholder="Enter Email"
+                  placeholder="Enter your email"
+                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#489fb5] outline-none"
                 />
               </div>
 
-              {/* role selection */}
-              <div className="mt-4 h-10 w-full md:w-[90%] flex rounded-lg">
+              {/* Role Selection */}
+              <div className="w-full flex rounded-lg overflow-hidden border border-gray-300 mb-4">
                 <div
-                  className={`h-full w-1/2 flex justify-center items-center cursor-pointer border-r-2 border-black rounded-l-lg hover:bg-[#489fb5] transition-all duration-300 ${
-                    retailer ? "bg-[#489fb5] text-white" : "bg-[#b0d3e1]"
+                  className={`flex-1 text-center py-2 cursor-pointer transition-all ${
+                    retailer
+                      ? "bg-[#489fb5] text-white"
+                      : "bg-gray-100 hover:bg-[#d4f0f5]"
                   }`}
                   onClick={() => {
                     setretailer(true);
                     setshopkeeper(false);
                   }}
                 >
-                  <h3 className="text-sm md:text-lg">Retail/Individual</h3>
+                  Retail / Individual
                 </div>
                 <div
-                  className={`h-full w-1/2 flex justify-center items-center cursor-pointer rounded-r-lg hover:bg-[#489fb5] transition-all duration-300 ${
-                    shopkeeper ? "bg-[#489fb5] text-white" : "bg-[#b0d3e1]"
+                  className={`flex-1 text-center py-2 cursor-pointer transition-all ${
+                    shopkeeper
+                      ? "bg-[#489fb5] text-white"
+                      : "bg-gray-100 hover:bg-[#d4f0f5]"
                   }`}
                   onClick={() => {
                     setshopkeeper(true);
                     setretailer(false);
                   }}
                 >
-                  <h3 className="text-sm md:text-lg">Shopkeeper</h3>
+                  Shopkeeper
                 </div>
               </div>
 
-              {/* retailer form */}
+              {/* Retailer Fields */}
               {retailer && (
-                <div className="w-full flex flex-col justify-center">
-                  <div className="mt-4">
-                    <label htmlFor="adress" className="font-semibold text-lg">
+                <div className="w-full">
+                  <div className="mb-4">
+                    <label htmlFor="adress" className="font-semibold text-gray-700">
                       Address
                     </label>
-                    <br />
                     <input
                       id="adress"
                       value={formData.adress}
                       onChange={handleChange}
-                      className="px-2 border border-black w-full md:w-[90%] mt-1 h-10 md:h-8 rounded-lg outline-none"
-                      placeholder="Enter Street name"
+                      placeholder="Enter your address"
+                      className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#489fb5] outline-none"
                     />
                     {errors.adress && (
-                      <p className="text-[10px] text-red-600">{errors.adress}</p>
+                      <p className="text-sm text-red-600 mt-1">{errors.adress}</p>
                     )}
                   </div>
 
-                  {/* credit limit */}
-                  <div className="mt-4">
-                    <label className="font-semibold text-lg">
+                  <div className="mb-4">
+                    <label className="font-semibold text-gray-700">
                       Need Credit Limit
                     </label>
-                    <div className="flex items-center gap-4 mt-2">
+                    <div className="flex gap-6 mt-2">
                       <label className="flex items-center gap-1">
                         <input
                           type="radio"
@@ -234,52 +246,49 @@ export function SingUP() {
                       </label>
                     </div>
                     {errors.limit && (
-                      <p className="text-[10px] text-red-600">{errors.limit}</p>
+                      <p className="text-sm text-red-600 mt-1">{errors.limit}</p>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* shopkeeper form */}
+              {/* Shopkeeper Fields */}
               {shopkeeper && (
-                <div className="w-full flex flex-col justify-center">
-                  <div className="mt-4">
-                    <label htmlFor="adress" className="font-semibold text-lg">
-                      Address / Shop name
+                <div className="w-full">
+                  <div className="mb-4">
+                    <label htmlFor="adress" className="font-semibold text-gray-700">
+                      Address / Shop Name
                     </label>
-                    <br />
                     <input
                       id="adress"
                       value={formData.adress}
                       onChange={handleChange}
-                      className="px-2 border border-black w-full md:w-[90%] mt-1 h-10 md:h-8 rounded-lg outline-none"
-                      placeholder="Enter Street name"
+                      placeholder="Enter shop address"
+                      className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#489fb5] outline-none"
                     />
                     {errors.adress && (
-                      <p className="text-[10px] text-red-600">{errors.adress}</p>
+                      <p className="text-sm text-red-600 mt-1">{errors.adress}</p>
                     )}
                   </div>
 
-                  <div className="mt-4">
-                    <label htmlFor="gstnumber" className="font-semibold text-lg">
+                  <div className="mb-4">
+                    <label htmlFor="gstnumber" className="font-semibold text-gray-700">
                       GST Number (Optional)
                     </label>
-                    <br />
                     <input
                       id="gstnumber"
                       value={formData.gstnumber}
                       onChange={handleChange}
-                      className="px-2 border border-black w-full md:w-[90%] mt-1 h-10 md:h-8 rounded-lg outline-none"
                       placeholder="Enter GST number"
+                      className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#489fb5] outline-none"
                     />
                   </div>
 
-                  {/* credit limit */}
-                  <div className="mt-4">
-                    <label className="font-semibold text-lg">
+                  <div className="mb-4">
+                    <label className="font-semibold text-gray-700">
                       Need Credit Limit
                     </label>
-                    <div className="flex items-center gap-4 mt-2">
+                    <div className="flex gap-6 mt-2">
                       <label className="flex items-center gap-1">
                         <input
                           type="radio"
@@ -306,26 +315,29 @@ export function SingUP() {
                       </label>
                     </div>
                     {errors.limit && (
-                      <p className="text-[10px] text-red-600">{errors.limit}</p>
+                      <p className="text-sm text-red-600 mt-1">{errors.limit}</p>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* submit */}
-              <div>
-                <button
-                  type="submit"
-                  className="w-full md:w-[90%] bg-[#489fb5] h-9 text-white mt-6 rounded-lg"
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full bg-[#489fb5] text-white font-semibold py-2 rounded-lg hover:bg-[#3a8fa1] transition-all mt-4"
+              >
+                Sign Up
+              </button>
+
+              <p className="text-sm text-gray-600 mt-3 text-center">
+                Already have an account?{" "}
+                <Link
+                  to="/loginpage"
+                  className="text-[#489fb5] hover:underline font-medium"
                 >
-                  Login
-                </button>
-              </div>
-              <div>
-                <Link to="/loginpage">
-                  <p className="text-sm text-center mt-2">Have an account?</p>
+                  Login here
                 </Link>
-              </div>
+              </p>
             </form>
           </div>
         </div>

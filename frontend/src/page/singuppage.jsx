@@ -1,4 +1,4 @@
-import { SingUP } from "../component/loginpage/Singup"
+import { SingUP } from "../auth/Singup"
 export function SingUppage(){
   return(
     <>
