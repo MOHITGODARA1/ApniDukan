@@ -46,7 +46,7 @@ export function Navbar() {
       <div className="flex items-center gap-8 text-[#1e293b] text-[16px] font-medium">
         <Link to="/" className="hover:text-[#489fb5] transition text-lg font-normal">Dashboard</Link>
         <Link to="/Allproduct" className="hover:text-[#489fb5] transition text-lg font-normal">Products</Link>
-        <Link to="/orders" className="hover:text-[#489fb5] transition text-lg font-normal">Orders</Link>
+        <Link to="/OrderPage" className="hover:text-[#489fb5] transition text-lg font-normal">Orders</Link>
       </div>
 
       {/* Right Side */}
